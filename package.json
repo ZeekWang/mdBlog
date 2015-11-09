@@ -1,0 +1,11 @@
+{
+  "name": "mdblog",
+  "version": "1.0.0",
+  "description": "blog with markdown",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Zeek",
+  "dependencies": {
+    "marked": "^0.3.5"
+  }
+}
