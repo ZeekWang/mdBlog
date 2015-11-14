@@ -1,4 +1,4 @@
-CONFIG = {
+exports.CONFIG = {
     url: "http://localhost/mdblog/",
     title: "Zeek的blog",
     subtitle: "",
