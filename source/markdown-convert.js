@@ -1,7 +1,7 @@
 var Marked = require('marked'),
     Fs = require("fs"),
     Walk = require('walk'),
-    Path = require('path'),
+    Path = require('path')
 
 module.exports = function(){
     this.options = {
