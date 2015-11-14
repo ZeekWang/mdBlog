@@ -1,0 +1,30 @@
+@background-color: rgb(235, 235, 235);
+@text-color: white;
+
+body {
+    background-color: @background-color;
+    color: @text-color;
+}
+
+.sidebar {
+    background-color: @background-color;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: url("../img/sidebar-bg.png");
+    background-repeat: repeat;
+}
+
+.side-brand {
+    padding: 0 5em;
+    margin-top: 5em;
+}
+
+.site-logo {
+    min-width: 5em;
+    max-width: 10em;
+    width: 30%;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0px 2px 20px 3px rgba(0, 0, 0, 0.25);
+}

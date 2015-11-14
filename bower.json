@@ -23,5 +23,8 @@
     "bootstrap": {
       "/": "dist"
     }
-  }  
+  },
+  "resolutions": {
+    "jquery": "~2.1.4"
+  }
 }
