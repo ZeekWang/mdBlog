@@ -1,14 +1,21 @@
 var Swig = require("swig")
+    Constant = require("./constant.js")
     Config = require("./config.js")
     Fs = require("fs")
 
-var render = function(inMd, outHtml, template) {
+var renderIndex = function(data) {
+    var template = Constant.template.index;
     var tpl = Swig.compileFile(template);
     var html =  tpl({ config: Config })
-    if ( Fs.existsSync(Path.dirname(outHtml)) == false ) {
-        Fs.mkdirSync(Path.dirname(outHtml));
-    }
-    Fs.writeFileSync(outHtml, html);   
+    return html;
 }
 
-exports.render = render;
+var renderBlog = function(contentHtml) {
+    var template = Constant.template.blog;
+    var tpl = Swig.compileFile(template);
+    var html =  tpl({ config: Config, contentHtml: contentHtml })
+    return html;
+}
+
+exports.renderIndex = renderIndex;
+exports.renderBlog = renderBlog;

@@ -1,9 +1,9 @@
 module.exports = {
     url: "http://localhost/mdblog/",
-    title: "Zeek的blog",
+    title: "Zeek",
     subtitle: "",
-    description: "这是一个基于Node.js的静态博客系统，使用Markdown编写文章",
-    keywords: "BLOG,Zeek Wang,技术",
+    description: "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST",
+    keywords: "Zeek",
     blog: {
         recentSize: 5,
         pageSize: 10,
