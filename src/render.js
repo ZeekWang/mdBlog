@@ -3,6 +3,10 @@ var Swig = require("swig")
     Config = require("./config.js")
     Fs = require("fs")
 
+Swig.setDefaults({
+    autoescape: false
+});
+
 var renderIndex = function(data) {
     var template = Constant.template.index;
     var tpl = Swig.compileFile(template);
@@ -10,12 +14,12 @@ var renderIndex = function(data) {
     return html;
 }
 
-var renderBlog = function(contentHtml) {
-    var template = Constant.template.blog;
+var renderPost = function(data, contentHtml) {
+    var template = Constant.template.post;
     var tpl = Swig.compileFile(template);
-    var html =  tpl({ config: Config, contentHtml: contentHtml })
+    var html =  tpl({ config: Config, data: data, contentHtml: contentHtml })
     return html;
 }
 
 exports.renderIndex = renderIndex;
-exports.renderBlog = renderBlog;
+exports.renderPost = renderPost;

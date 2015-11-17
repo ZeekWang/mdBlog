@@ -4,12 +4,16 @@ var Fs = require("fs"),
     Render = require("./render.js")
     MarkdownConverter = require("./markdown-converter.js")
     Constant = require("./constant.js")
+    Post = require("./model/post.js")
 
-var files = [];
-var blogs = [];
-var pages = [];
-var INPATH, OUTPATH;
-function walk(path) {
+var postFiles = [],
+    pageFiles = [],
+    posts = [],
+    pages = [];
+
+var inPath = Constant.path.blog, outPath = Constant.path.site;
+
+function walk(path, files) {
     var walkerOptions = {
         followLinks: true,
         listeners: {
@@ -26,27 +30,20 @@ function walk(path) {
 }
 
 function loadData() {
-    for (var i = 0; i < files.length; i++) {
-        var inFileName = files[i];
-        var fileContent = Fs.readFileSync(inFileName,'utf-8');
-        var d = {};
-        d.mdText = fileContent;
+    for (var i = 0; i < postFiles.length; i++) {
+        var inFileName = postFiles[i];
+        var post = new Post();
+        var d = post.load(inFileName);
         d.inFileName = inFileName;
-        d.outFileName = getOutputFileName(inFileName, INPATH, OUTPATH);
-        blogs.push(d);
-
-        var re = new RegExp("(?:<!--)([\\s\\S]*?)(?:-->)", "i");
-        var ma = fileContent.match(re);
-        if (ma != null) {
-            console.log(ma[1]);
-            var setting = JSON.parse(ma[1]);
-            console.log(setting);
-            
-        }
-
+        d.outFileName = getOutputFileName(inFileName, inPath, outPath);
+        posts.push(d);
     }
+    for (var i = 0; i < pageFiles.length; i++) {
+        var inFileName = pageFiles[i];
+        // var post = new Post();
+        // TODO  
+    }    
 }
-
 
 function getOutputFileName(inFileName, inPath, outPath) {
     var outFileName = Path.join(outPath, Path.relative(inPath, inFileName))
@@ -54,25 +51,37 @@ function getOutputFileName(inFileName, inPath, outPath) {
     if ( Fs.existsSync(Path.dirname(outFileName)) == false ) {
         Fs.mkdirSync(Path.dirname(outFileName));
     }              
-    return outFileName; 
+    return outFileName;
 }
 
 function writeHtmlFile(outFileName, html) {
+    console.log(outFileName);
     Fs.writeFileSync(outFileName, html);
 }
 
-function produceIndex(outPath) {
+function produceIndex() {
     var html = Render.renderIndex("");
     writeHtmlFile(outPath + "/index.html", html);
 }
 
-function produce(inPath, outPath) {
-    INPATH = inPath;
-    OUTPATH = outPath;
-    walk(inPath);
-    console.log(files);
-    loadData()
-    produceIndex(outPath);
+function producePosts() {
+    var converter = new MarkdownConverter();
+    for (var i in posts) {
+        var post = posts[i];
+        var markedContentHtml = converter.convert(post.body);
+        var html = Render.renderPost(post, markedContentHtml);
+        writeHtmlFile(post.outFileName, html);
+        console.log("output:" + post.outFileName);
+    }
+}
+
+function produce() {
+    walk( Path.join(Constant.path.blog, Constant.path.postDir), postFiles );
+    walk( Path.join(Constant.path.blog, Constant.path.pageDir), pageFiles );
+    console.log(postFiles)
+    loadData();
+    produceIndex();
+    producePosts();
 }
 
 exports.produce = produce;
