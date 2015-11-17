@@ -7,10 +7,10 @@ Swig.setDefaults({
     autoescape: false
 });
 
-var renderIndex = function(data) {
+var renderIndex = function(data, page, totalPage) {
     var template = Constant.template.index;
     var tpl = Swig.compileFile(template);
-    var html =  tpl({ config: Config })
+    var html =  tpl({ config: Config, data: data, page: page, totalPage: totalPage })
     return html;
 }
 

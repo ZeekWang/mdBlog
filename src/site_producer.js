@@ -3,6 +3,7 @@ var Fs = require("fs"),
     Path = require('path'),
     Render = require("./render.js")
     MarkdownConverter = require("./markdown-converter.js")
+    Config = require("./config.js")
     Constant = require("./constant.js")
     Post = require("./model/post.js")
 
@@ -36,13 +37,20 @@ function loadData() {
         var d = post.load(inFileName);
         d.inFileName = inFileName;
         d.outFileName = getOutputFileName(inFileName, inPath, outPath);
-        posts.push(d);
+        d.href = Path.relative(Constant.path.site, d.outFileName);
+        console.log(Constant.path.site, d.outFileName, d.href)
+        if (d != null && d.attrs != null && d.attrs.status == "publish")
+            posts.push(d);
     }
     for (var i = 0; i < pageFiles.length; i++) {
         var inFileName = pageFiles[i];
         // var post = new Post();
         // TODO  
-    }    
+    }
+
+    posts.sort(function(a, b){
+        return b.attrs.date - a.attrs.date;
+    })  
 }
 
 function getOutputFileName(inFileName, inPath, outPath) {
@@ -60,8 +68,14 @@ function writeHtmlFile(outFileName, html) {
 }
 
 function produceIndex() {
-    var html = Render.renderIndex("");
-    writeHtmlFile(outPath + "/index.html", html);
+    var totalPage = Math.ceil(posts.length / Config.post.pageSize);
+    for (var page = 1; page <= totalPage; page++) {
+        var data = posts.slice( Config.post.pageSize * (page - 1), Config.post.pageSize * page );
+        var html = Render.renderIndex(data, page, totalPage);
+        writeHtmlFile(outPath + "/page" + page + ".html", html);
+        if (page == 1)
+            writeHtmlFile(outPath + "index.html", html);
+    }
 }
 
 function producePosts() {
@@ -85,34 +99,3 @@ function produce() {
 }
 
 exports.produce = produce;
-
-
-// module.exports = function(){
-//     this.files = [];
-//     this.produceIndex = function(inPath, outPath) {
-
-//     }
-//     this.produceBlogs = function(inPath, outPath) {
-//         var files = [];
-
-
-
-
-//         function convertToHtml() {
-//             var converter = new MarkdownConverter();
-//             files.forEach(function(inFileName) {
-//                 var outFileName = getOutputFileName(inFileName);
-//                 var mdText = Fs.readFileSync(inFileName,'utf-8');
-//                 var markedContentHtml = converter.convert(mdText);
-
-//                 Render.renderBlog("")
-//                 Fs.writeFileSync(outFileName, html);
-//             });            
-//         }
-
-//         walk();
-//         convertToHtml();
-
-//     }
-//     return this;
-// }

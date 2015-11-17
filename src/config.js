@@ -5,7 +5,7 @@ module.exports = {
     description: "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST",
     keywords: "Zeek",
     author: "Zeek",
-    blog: {
+    post: {
         recentSize: 5,
         pageSize: 10,
     }

@@ -8,6 +8,7 @@ var Fs = require("fs")
 //         date: DateTime,
 //         author: String,
 //         title: String,
+//         abstract: String,
 //         tags: Array(String),
 //         category: String,
 //         status: String (publish/draft),
@@ -20,10 +21,11 @@ module.exports = function(){
         attrs: {
             date: new Date(),
             author: Config.author,
-            title: "<span style='color:red'>Empty Title</span>",
+            title: "<span style='color:red'>Non-title</span>",
             tags: [],
             category: "",
-            status: "publish"            
+            status: "draft",
+            abstract: ""        
         }
     };
     this.load = function(inFileName) {
@@ -46,6 +48,8 @@ module.exports = function(){
         }
         if (attrs.category != null)
             this.data.attrs.category = attrs.category + "";
+        if (attrs.abstract != null)
+            this.data.attrs.abstract = attrs.abstract + "";
         if (attrs.status != null) {
             var s = attrs.status + "";
             if (s == "publish" || s == "draft")

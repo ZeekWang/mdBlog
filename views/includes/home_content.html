@@ -1,0 +1,23 @@
+{% for post in data %}
+    <article class="post">
+        <div class="datetime" datetime="{{post.attrs.date}}"></div>
+        <div class="title"> {{ post.attrs.title }} </div>
+        <p class="abstract">
+            {{ post.attrs.abstract }}
+        </p>
+        <div class="viewmore">
+            <a href="{{ config.url }}/{{ post.href }}">查看更多</a> 
+        </div>
+    </article>
+{% endfor %}
+
+<nav>
+    <ul class="pager">
+        {% if page > 1 %}
+            <li><a href="{{ config.url }}/page{{ page-1 }}.html">上一页</a></li>
+        {% endif %}
+        {% if page < totalPage %}
+            <li><a href="{{ config.url }}/page{{ page+1 }}.html">下一页</a></li>
+        {% endif %}
+    </ul>
+</nav>
