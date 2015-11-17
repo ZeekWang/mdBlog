@@ -69,6 +69,11 @@ function writeHtmlFile(outFileName, html) {
 
 function produceIndex() {
     var totalPage = Math.ceil(posts.length / Config.post.pageSize);
+    if (totalPage == 0) {
+        var html = Render.renderIndex([], 0, 0);
+        writeHtmlFile(outPath + "index.html", html);
+    }
+
     for (var page = 1; page <= totalPage; page++) {
         var data = posts.slice( Config.post.pageSize * (page - 1), Config.post.pageSize * page );
         var html = Render.renderIndex(data, page, totalPage);

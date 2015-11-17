@@ -3,7 +3,8 @@ module.exports = {
         site: "./site/",
         blog: "./blog/",
         postDir: "post",
-        pageDir: "page"
+        pageDir: "page",
+        imgDir: "img"
     },
     template: {
         index: "./views/index.html",
