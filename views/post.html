@@ -1,0 +1,13 @@
+{% extends "includes/framework.html" %}
+
+{% block head-include %}
+<link href="{{ config.url }}/css/markdown/github-markdown.css" rel="stylesheet">
+{% endblock %}
+
+{% block content-body %}
+    {% include "includes/post_content.html" %}
+{% endblock %}
+
+{% block foot-include %}
+    <script type="text/javascript" src="{{ config.url }}/js/script.js"></script>
+{% endblock %}

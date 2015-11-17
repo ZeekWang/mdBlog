@@ -3,20 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% block head %}
     <title>{{ config.title }}</title>
-    {% endblock %}
+    {% block head %}  {% endblock %}
 
-    {% block head-include %}
-     <link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-     <!-- <link href="libs/flat-ui/flat-ui.css" rel="stylesheet"> -->
-     <link href="css/style.css" rel="stylesheet">
-    {% endblock %}
+    <link href="{{ config.url }}/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ config.url }}/css/style.css" rel="stylesheet">
+    {% block head-include %} {% endblock %}
 </head>
 
 <body>
-    {% block header %} {% endblock %}
-    {% block content %} {% endblock %}
-    {% block footer %} {% endblock %}
+    {% block header %}
+        <!-- {% include "header.html" %} -->
+    {% endblock %}
+    {% block content %}
+    <div id="content" class="container-fluid">
+        <div>
+            <div class="row">
+                <div class="col-md-3 sidebar">
+                {% include "sidebar.html" %}
+                </div>
+                <div class="col-md-9 col-md-offset-3 content-body">
+                    {% block content-body %}
+                    {% endblock %}
+                </div>
+            </div>
+            <!-- .row -->
+        </div>
+    </div><!-- #content -->
+    {% endblock %}
+
+    {% block footer %}
+
+    {% endblock %}
+
+    
+    <script type="text/javascript" src="{{ config.url }}/libs/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{{ config.url }}/libs/jquery-dateFormat/jquery-dateFormat.js"></script>
+    {% block foot-include %} {% endblock %}
 </body>
 </html>
